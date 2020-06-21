@@ -2,9 +2,9 @@ CREATE TABLE `recreation_not_allowed` (`something` int(11) NOT NULL);
 
 -- MySQL dump 10.13  Distrib 5.7.30, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: payments
+-- Host: 127.0.0.1    Database:
 -- ------------------------------------------------------
--- Server version       5.7.28
+-- Server version	5.7.28
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,14 @@ CREATE TABLE `recreation_not_allowed` (`something` int(11) NOT NULL);
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `payments`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `payments` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `payments`;
 
 --
 -- Table structure for table `allowed_type_currency`
@@ -81,7 +89,7 @@ DROP TABLE IF EXISTS `client`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `client` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `login` varchar(64) NOT NULL,
+                          `login` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
                           `encrypted_pass` varchar(128) NOT NULL,
                           PRIMARY KEY (`id`),
                           UNIQUE KEY `clients_login_uindex` (`login`),
@@ -110,7 +118,11 @@ CREATE TABLE `client_action` (
                                  `client_id` int(11) NOT NULL,
                                  `client_ip_id` int(11) NOT NULL,
                                  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                                 PRIMARY KEY (`id`)
+                                 PRIMARY KEY (`id`),
+                                 KEY `client_action_client_id_fk` (`client_id`),
+                                 KEY `client_action_client_ip_id_fk` (`client_ip_id`),
+                                 CONSTRAINT `client_action_client_id_fk` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`),
+                                 CONSTRAINT `client_action_client_ip_id_fk` FOREIGN KEY (`client_ip_id`) REFERENCES `client_ip` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -187,10 +199,11 @@ DROP TABLE IF EXISTS `currency_stamp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `currency_stamp` (
-                                  `id` int(11) DEFAULT NULL,
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
                                   `main_currency_id` int(11) NOT NULL,
                                   `additional_currency_id` int(11) DEFAULT NULL,
                                   `currency_rate` float DEFAULT NULL,
+                                  PRIMARY KEY (`id`),
                                   KEY `currency_stamp_currency_id_fk` (`main_currency_id`),
                                   KEY `currency_stamp_currency_id_fk_2` (`additional_currency_id`),
                                   CONSTRAINT `currency_stamp_currency_id_fk` FOREIGN KEY (`main_currency_id`) REFERENCES `currency` (`id`),
@@ -244,6 +257,68 @@ LOCK TABLES `existing_payment` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `existing_payment_data`
+--
+
+DROP TABLE IF EXISTS `existing_payment_data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `existing_payment_data` (
+                                         `id` int(11) NOT NULL AUTO_INCREMENT,
+                                         `payment_id` int(11) DEFAULT NULL,
+                                         `debtor_iban` text CHARACTER SET utf8,
+                                         `creditor_iban` text CHARACTER SET utf8,
+                                         `details` text CHARACTER SET utf8,
+                                         `creditor_bank_bic_code` text CHARACTER SET utf8,
+                                         PRIMARY KEY (`id`),
+                                         UNIQUE KEY `existing_payment_data_payment_id_uindex` (`payment_id`),
+                                         CONSTRAINT `existing_payment_data_existing_payment_id_fk` FOREIGN KEY (`payment_id`) REFERENCES `existing_payment` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `existing_payment_data`
+--
+
+LOCK TABLES `existing_payment_data` WRITE;
+/*!40000 ALTER TABLE `existing_payment_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `existing_payment_data` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `flyway_schema_history`
+--
+
+DROP TABLE IF EXISTS `flyway_schema_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flyway_schema_history` (
+                                         `installed_rank` int(11) NOT NULL,
+                                         `version` varchar(50) DEFAULT NULL,
+                                         `description` varchar(200) NOT NULL,
+                                         `type` varchar(20) NOT NULL,
+                                         `script` varchar(1000) NOT NULL,
+                                         `checksum` int(11) DEFAULT NULL,
+                                         `installed_by` varchar(100) NOT NULL,
+                                         `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `execution_time` int(11) NOT NULL,
+                                         `success` tinyint(1) NOT NULL,
+                                         PRIMARY KEY (`installed_rank`),
+                                         KEY `flyway_schema_history_s_idx` (`success`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `flyway_schema_history`
+--
+
+LOCK TABLES `flyway_schema_history` WRITE;
+/*!40000 ALTER TABLE `flyway_schema_history` DISABLE KEYS */;
+INSERT INTO `flyway_schema_history` VALUES (1,'1','<< Flyway Baseline >>','BASELINE','<< Flyway Baseline >>',NULL,'user','2020-06-21 05:29:57',0,1),(2,'0.0.1','create database with default data','SQL','V0.0.1__create_database_with_default_data.sql',1704548551,'user','2020-06-21 09:19:57',1691,1),(3,'0.0.1','create database with default data','SQL','V0.0.1__create_database_with_default_data.sql',-2043919699,'user','2020-06-21 09:35:16',706,1);
+/*!40000 ALTER TABLE `flyway_schema_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `payment_fee`
 --
 
@@ -251,13 +326,14 @@ DROP TABLE IF EXISTS `payment_fee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payment_fee` (
-                               `id` int(11) DEFAULT NULL,
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
                                `cancel_id` int(11) NOT NULL,
                                `currency_id` int(11) NOT NULL,
                                `type_id` int(11) NOT NULL,
                                `fee_amount` float NOT NULL,
                                `fee_coefficient` float NOT NULL,
                                `calculated_at` datetime NOT NULL,
+                               PRIMARY KEY (`id`),
                                UNIQUE KEY `payment_fee_cancel_id_uindex` (`cancel_id`),
                                KEY `payment_fee_currency_id_fk` (`currency_id`),
                                KEY `payment_fee_payment_type_id_fk` (`type_id`),
@@ -303,6 +379,27 @@ INSERT INTO `payment_type` VALUES (1,'TYPE1',0.05),(2,'TYPE2',0.1),(3,'TYPE3',0.
 UNLOCK TABLES;
 
 --
+-- Table structure for table `recreation_not_allowed`
+--
+
+DROP TABLE IF EXISTS `recreation_not_allowed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recreation_not_allowed` (
+    `something` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recreation_not_allowed`
+--
+
+LOCK TABLES `recreation_not_allowed` WRITE;
+/*!40000 ALTER TABLE `recreation_not_allowed` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recreation_not_allowed` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `unique_id`
 --
 
@@ -336,4 +433,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-20 11:18:48
+-- Dump completed on 2020-06-21 12:38:26

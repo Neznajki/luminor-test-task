@@ -3,10 +3,10 @@
 version: '3.0'
 
 services:
-    mysql:
+    mysql-p:
         hostname: mysql
         image: mysql:5.7
-        container_name: mysql
+        container_name: mysql-p
         restart: always
         # restart can be removed
         environment:
@@ -25,7 +25,7 @@ services:
             - '3306'
             # Where our data will be persisted
         volumes:
-            - /docker-common-meta-files/mysql/db:/var/lib/mysql:cached
+            - /docker-common-meta-files/mysql/payments_db:/var/lib/mysql:cached
             # please define cache folder for database metadata (to preserve state)
 
 networks:
