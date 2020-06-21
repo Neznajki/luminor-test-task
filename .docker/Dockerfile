@@ -1,8 +1,17 @@
-FROM openjdk:14
+FROM openjdk:14-alpine
 
-RUN apt-get update && apt-get install -y maven
-COPY . /project
-RUN  cd /project && mvn package
+RUN apk add --update maven &&\
+    apk add --update sudo
 
-#run the spring boot application
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dblabla", "-jar","/project/target/demo-0.0.1-SNAPSHOT.jar"]
+COPY run.sh /usr/local/bin/run.sh
+COPY initConfigs.sh /usr/local/bin/initConfigs.sh
+COPY addUser.sh /usr/local/bin/addUser.sh
+
+RUN chmod 0777 /usr/local/bin/run.sh /usr/local/bin/initConfigs.sh /usr/local/bin/addUser.sh
+
+RUN head -c 5 /dev/random > random_bytes && chmod 0777 /etc/passwd
+
+WORKDIR /project
+
+#run.sh the spring boot application
+ENTRYPOINT ["sh", "/usr/local/bin/run.sh"]

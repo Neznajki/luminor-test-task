@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>14</java.version>
+        <flyway.user>user</flyway.user>
+        <flyway.password>1</flyway.password>
+        <flyway.schemas>payments</flyway.schemas>
+        <flyway.url>jdbc:mysql://localhost:3306/payments?useUnicode=yes&amp;characterEncoding=UTF-8</flyway.url>
     </properties>
 
     <dependencies>
@@ -67,6 +71,10 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
