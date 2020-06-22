@@ -6,13 +6,13 @@ services:
         network_mode: host
         build:
             ./.docker
-        user: ${DOCKER_USER_ID}:${DOCKER_USER_GID}
+        user: ${UID}
         ports:
             - "8080:8080"
         volumes:
             - ./:/project:cached
         environment:
-            - DOCKER_USER_ID=${DOCKER_USER_ID:-1000}
+            - DOCKER_USER_ID=${UID:-1000}
             - DOCKER_USER_GID=${DOCKER_USER_GID:-1000}
 
         depends_on:
