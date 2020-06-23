@@ -79,6 +79,11 @@
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>9.0.36</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

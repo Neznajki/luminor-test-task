@@ -23,6 +23,7 @@
                 <form:input type="text" path="login" class="form-control" placeholder="Login"
                             autofocus="true"></form:input>
                 <form:errors path="login"></form:errors>
+                <form:errors path="passwordReset"></form:errors>
             </div>
         </spring:bind>
 
@@ -47,7 +48,6 @@
                     <form:checkbox id="passwordReset" path="passwordReset"
                                 placeholder="Confirm your password"></form:checkbox>
                     Update password on existing account
-                    <form:errors path="passwordReset"></form:errors>
                 </form:label>
             </div>
         </spring:bind>

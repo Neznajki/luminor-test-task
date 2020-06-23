@@ -2,6 +2,7 @@ package com.luminor.task.payment.web.rest;
 
 import com.luminor.task.payment.contract.SecurityService;
 import com.luminor.task.payment.contract.UserService;
+import com.luminor.task.payment.db.entity.ClientEntity;
 import com.luminor.task.payment.security.User;
 import com.luminor.task.payment.security.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ClientController {
     private final UserService userService;
-
     private final SecurityService securityService;
-
     private final UserValidator userValidator;
 
     @Autowired
@@ -36,6 +35,7 @@ public class ClientController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+        userForm.setClientEntity(userService.findByUsername(userForm.getLogin()));
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -44,7 +44,7 @@ public class ClientController {
 
         userService.save(userForm);
 
-        securityService.autoLogin(userForm.getLogin(), userForm.getPasswordConfirm());
+        securityService.autoLogin(userForm.getLogin(), userForm.getPassword());
 
         return "redirect:/";
     }

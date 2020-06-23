@@ -286,39 +286,6 @@ LOCK TABLES `existing_payment_data` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `flyway_schema_history`
---
-
-DROP TABLE IF EXISTS `flyway_schema_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `flyway_schema_history` (
-                                         `installed_rank` int(11) NOT NULL,
-                                         `version` varchar(50) DEFAULT NULL,
-                                         `description` varchar(200) NOT NULL,
-                                         `type` varchar(20) NOT NULL,
-                                         `script` varchar(1000) NOT NULL,
-                                         `checksum` int(11) DEFAULT NULL,
-                                         `installed_by` varchar(100) NOT NULL,
-                                         `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                         `execution_time` int(11) NOT NULL,
-                                         `success` tinyint(1) NOT NULL,
-                                         PRIMARY KEY (`installed_rank`),
-                                         KEY `flyway_schema_history_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `flyway_schema_history`
---
-
-LOCK TABLES `flyway_schema_history` WRITE;
-/*!40000 ALTER TABLE `flyway_schema_history` DISABLE KEYS */;
-INSERT INTO `flyway_schema_history` VALUES (1,'1','<< Flyway Baseline >>','BASELINE','<< Flyway Baseline >>',NULL,'user','2020-06-21 05:29:57',0,1),(2,'0.0.1','create database with default data','SQL','V0.0.1__create_database_with_default_data.sql',1704548551,'user','2020-06-21 09:19:57',1691,1),(3,'0.0.1','create database with default data','SQL','V0.0.1__create_database_with_default_data.sql',-2043919699,'user','2020-06-21 09:35:16',706,1);
-/*!40000 ALTER TABLE `flyway_schema_history` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `payment_fee`
 --
 

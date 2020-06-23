@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         if (user.getPasswordReset()) {
             clientEntity = user.getClientEntity();
         } else {
-            clientEntity = new ClientEntity();
+            clientEntity = createClientEntity();
             clientEntity.setLogin(user.getLogin());
         }
 
@@ -36,5 +36,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ClientEntity findByUsername(String username) {
         return clientRepository.findByLogin(username);
+    }
+
+    protected ClientEntity createClientEntity() {
+        return new ClientEntity();
     }
 }

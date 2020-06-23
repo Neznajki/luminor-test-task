@@ -7,9 +7,7 @@ import java.util.Objects;
 @Table(name = "client_ip", schema = "payments")
 public class ClientIpEntity {
     private int id;
-    private int ipAddressInt;
     private String ipAddress;
-    private String domain;
     private String countryCode;
 
     @Id
@@ -23,16 +21,6 @@ public class ClientIpEntity {
     }
 
     @Basic
-    @Column(name = "ip_address_int")
-    public int getIpAddressInt() {
-        return ipAddressInt;
-    }
-
-    public void setIpAddressInt(int ipAddressInt) {
-        this.ipAddressInt = ipAddressInt;
-    }
-
-    @Basic
     @Column(name = "ip_address")
     public String getIpAddress() {
         return ipAddress;
@@ -40,16 +28,6 @@ public class ClientIpEntity {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-    }
-
-    @Basic
-    @Column(name = "domain")
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
     }
 
     @Basic
@@ -68,14 +46,12 @@ public class ClientIpEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ClientIpEntity that = (ClientIpEntity) o;
         return id == that.id &&
-            ipAddressInt == that.ipAddressInt &&
             Objects.equals(ipAddress, that.ipAddress) &&
-            Objects.equals(domain, that.domain) &&
             Objects.equals(countryCode, that.countryCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ipAddressInt, ipAddress, domain, countryCode);
+        return Objects.hash(id, ipAddress, countryCode);
     }
 }

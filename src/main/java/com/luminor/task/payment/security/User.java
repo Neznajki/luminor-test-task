@@ -2,6 +2,8 @@ package com.luminor.task.payment.security;
 
 import com.luminor.task.payment.db.entity.ClientEntity;
 
+import java.util.Objects;
+
 public class User {
     private String login;
     private String password;
@@ -47,5 +49,22 @@ public class User {
 
     public void setClientEntity(ClientEntity clientEntity) {
         this.clientEntity = clientEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(login, user.login) &&
+            Objects.equals(password, user.password) &&
+            Objects.equals(passwordConfirm, user.passwordConfirm) &&
+            Objects.equals(passwordReset, user.passwordReset) &&
+            Objects.equals(clientEntity, user.clientEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, passwordConfirm, passwordReset, clientEntity);
     }
 }
