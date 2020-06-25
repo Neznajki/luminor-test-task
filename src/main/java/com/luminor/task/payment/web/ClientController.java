@@ -1,4 +1,4 @@
-package com.luminor.task.payment.web.rest;
+package com.luminor.task.payment.web;
 
 import com.luminor.task.payment.contract.SecurityService;
 import com.luminor.task.payment.contract.UserService;

@@ -74,7 +74,7 @@ public class ClientMetaDataSaverImpl {
         clientActionEntity.setClientIpByClientIpId(clientIpEntity);
         clientActionEntity.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-        clientActionRepository.save(clientActionEntity);
+        clientActionRepository.saveAndFlush(clientActionEntity);
         return clientActionEntity;
     }
 
@@ -83,7 +83,7 @@ public class ClientMetaDataSaverImpl {
         clientIpEntity.setIpAddress(clientIp);
 
         try {
-            clientIpRepository.save(clientIpEntity);
+            clientIpRepository.saveAndFlush(clientIpEntity);
         } catch (DataIntegrityViolationException e) {
             clientIpEntity = clientIpRepository.findByIpAddress(clientIp);
         }

@@ -13,6 +13,7 @@ public class ClientActionEntity {
     private ClientIpEntity clientIpByClientIpId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;

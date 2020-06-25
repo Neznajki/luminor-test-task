@@ -1,6 +1,7 @@
 package com.luminor.task.payment.db.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -9,8 +10,11 @@ public class PaymentTypeEntity {
     private int id;
     private String typeName;
     private double feeCoefficient;
+    private Collection<AllowedTypeCurrencyEntity> allowedTypeCurrenciesById;
+    private Collection<PaymentFeeEntity> paymentFeesById;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -53,5 +57,28 @@ public class PaymentTypeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, typeName, feeCoefficient);
+    }
+
+    @OneToMany(mappedBy = "paymentTypeByTypeId")
+    public Collection<AllowedTypeCurrencyEntity> getAllowedTypeCurrenciesById() {
+        return allowedTypeCurrenciesById;
+    }
+
+    public void setAllowedTypeCurrenciesById(Collection<AllowedTypeCurrencyEntity> allowedTypeCurrenciesById) {
+        this.allowedTypeCurrenciesById = allowedTypeCurrenciesById;
+    }
+
+    @OneToMany(mappedBy = "paymentTypeByTypeId")
+    public Collection<PaymentFeeEntity> getPaymentFeesById() {
+        return paymentFeesById;
+    }
+
+    public void setPaymentFeesById(Collection<PaymentFeeEntity> paymentFeesById) {
+        this.paymentFeesById = paymentFeesById;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s <%4.2f>", typeName, feeCoefficient);
     }
 }

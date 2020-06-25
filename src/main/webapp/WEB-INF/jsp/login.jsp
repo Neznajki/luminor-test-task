@@ -11,6 +11,7 @@
     <title>Log in with your account</title>
 
     <link href="${contextPath}/resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <script src="${contextPath}/resources/js/jquery.1.11.2.min.js"></script>
 </head>
 
 <body>
@@ -34,7 +35,6 @@
     </form>
 </div>
 
-<script src="${contextPath}/resources/js/jquery.1.11.2.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap/bootstrap.min.js"></script>
 </body>
 </html>

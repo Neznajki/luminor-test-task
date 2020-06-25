@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/resources/**", "/registration").permitAll()
+            .antMatchers("/rest-api/**").hasAuthority("RESTApi")
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -40,7 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .and()
             .logout()
-            .permitAll();
+            .permitAll()
+            .and().httpBasic();
+
     }
 
     @Bean

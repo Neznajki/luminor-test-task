@@ -14,6 +14,7 @@ public class ExistingPaymentDataEntity {
     private ExistingPaymentEntity existingPaymentByPaymentId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -80,7 +81,7 @@ public class ExistingPaymentDataEntity {
         return Objects.hash(id, debtorIban, creditorIban, details, creditorBankBicCode);
     }
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
     public ExistingPaymentEntity getExistingPaymentByPaymentId() {
         return existingPaymentByPaymentId;
@@ -89,4 +90,6 @@ public class ExistingPaymentDataEntity {
     public void setExistingPaymentByPaymentId(ExistingPaymentEntity existingPaymentByPaymentId) {
         this.existingPaymentByPaymentId = existingPaymentByPaymentId;
     }
+
+
 }

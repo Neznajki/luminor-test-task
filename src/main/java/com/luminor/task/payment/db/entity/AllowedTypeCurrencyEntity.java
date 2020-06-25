@@ -11,6 +11,7 @@ public class AllowedTypeCurrencyEntity {
     private CurrencyEntity currencyByCurrencyId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -51,5 +52,10 @@ public class AllowedTypeCurrencyEntity {
 
     public void setCurrencyByCurrencyId(CurrencyEntity currencyByCurrencyId) {
         this.currencyByCurrencyId = currencyByCurrencyId;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s) - %d", paymentTypeByTypeId, currencyByCurrencyId, id);
     }
 }

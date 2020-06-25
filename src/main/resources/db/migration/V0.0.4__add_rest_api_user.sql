@@ -1,0 +1,1 @@
+INSERT INTO client values (null, '', '$2a$10$8dK9MrGzbA50Ng0ysJkROuQ5xBoXmVtPEwt7NDjlXZPh7/09aTLr2')

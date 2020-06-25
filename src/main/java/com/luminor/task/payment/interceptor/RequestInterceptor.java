@@ -1,5 +1,6 @@
 package com.luminor.task.payment.interceptor;
 
+import com.luminor.task.payment.helper.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
     ClientMetaDataSaverImpl clientMetaDataSaver;
+    Logger logger = LoggerFactory.getLogger(RequestInterceptor.class);
 
     @Autowired
     public RequestInterceptor(ClientMetaDataSaverImpl clientMetaDataSaver) {
@@ -25,7 +27,8 @@ public class RequestInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        request.setAttribute("client.meta.data.entity", clientMetaDataSaver.createRequestUserMetaData(request));
+        request.setAttribute(UserData.ATTRIBUTE_INDEX, clientMetaDataSaver.createRequestUserMetaData(request));
+        logger.info(String.format("set attribute %s for current request", UserData.ATTRIBUTE_INDEX));
 
         return true;
     }

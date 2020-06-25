@@ -15,8 +15,10 @@ public class ExistingPaymentEntity {
     private UniqueIdEntity uniqueIdByUniqueId;
     private CurrencyEntity currencyByCurrencyId;
     private ExistingPaymentDataEntity existingPaymentDataById;
+    private ClientEntity payedClientByPayedClientId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -61,7 +63,7 @@ public class ExistingPaymentEntity {
         return Objects.hash(id, paymentAmount, created);
     }
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "payment_type_id", referencedColumnName = "id", nullable = false)
     public PaymentTypeEntity getPaymentTypeByPaymentTypeId() {
         return paymentTypeByPaymentTypeId;
@@ -81,7 +83,7 @@ public class ExistingPaymentEntity {
         this.clientActionByClientActionId = clientActionByClientActionId;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "unique_id", referencedColumnName = "id", nullable = false)
     public UniqueIdEntity getUniqueIdByUniqueId() {
         return uniqueIdByUniqueId;
@@ -91,7 +93,7 @@ public class ExistingPaymentEntity {
         this.uniqueIdByUniqueId = uniqueIdByUniqueId;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "currency_id", referencedColumnName = "id", nullable = false)
     public CurrencyEntity getCurrencyByCurrencyId() {
         return currencyByCurrencyId;
@@ -108,5 +110,15 @@ public class ExistingPaymentEntity {
 
     public void setExistingPaymentDataById(ExistingPaymentDataEntity existingPaymentDataById) {
         this.existingPaymentDataById = existingPaymentDataById;
+    }
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "payed_client_id", referencedColumnName = "id", nullable = false)
+    public ClientEntity getPayedClientByPayedClientId() {
+        return payedClientByPayedClientId;
+    }
+
+    public void setPayedClientByPayedClientId(ClientEntity payedClientByPayedClientId) {
+        this.payedClientByPayedClientId = payedClientByPayedClientId;
     }
 }

@@ -4,6 +4,7 @@ import com.luminor.task.payment.db.entity.ClientEntity;
 import com.luminor.task.payment.db.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) throw new UsernameNotFoundException(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+
+        if (username.equals("RESTapi")) {
+            grantedAuthorities.add(new SimpleGrantedAuthority("RESTApi"));
+        }
 
         return new org.springframework.security.core.userdetails.User(
             user.getLogin(),

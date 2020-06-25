@@ -14,6 +14,7 @@ public class CurrencyEntity {
     private Timestamp lastUpdateTime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -78,5 +79,10 @@ public class CurrencyEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, isoCode, coefficient, isPrimary, lastUpdateTime);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s <%4.2f>", isoCode, coefficient);
     }
 }

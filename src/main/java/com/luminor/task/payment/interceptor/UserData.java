@@ -6,6 +6,7 @@ import com.luminor.task.payment.db.entity.ClientIpEntity;
 import java.util.Objects;
 
 public class UserData {
+    public static String ATTRIBUTE_INDEX = "client.meta.data.entity";
     private ClientIpEntity clientIpEntity;
     private ClientActionEntity clientActionEntity;
 

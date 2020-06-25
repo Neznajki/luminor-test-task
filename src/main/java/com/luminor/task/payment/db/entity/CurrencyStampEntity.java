@@ -12,6 +12,7 @@ public class CurrencyStampEntity {
     private CurrencyEntity currencyByAdditionalCurrencyId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Integer getId() {
         return id;
