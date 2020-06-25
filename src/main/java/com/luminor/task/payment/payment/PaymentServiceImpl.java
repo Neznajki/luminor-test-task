@@ -64,15 +64,14 @@ public class PaymentServiceImpl {
         }
 
         ClientActionEntity currentUserAction = Request.getCurrentUserAction();
-        UniqueIdEntity newUniqueEntity = uniqueIdService.getNewUniqueEntity();
 
         ExistingPaymentEntity existingPaymentEntity = this.createExistingPaymentEntity(
+            paymentRequest,
             clientEntity,
             allowedTypeCurrencyEntity.getCurrencyByCurrencyId(),
             allowedTypeCurrencyEntity.getPaymentTypeByTypeId(),
             paymentRequest.getAmount(),
-            currentUserAction,
-            newUniqueEntity
+            currentUserAction
         );
 
         publisher.publishEvent(new PaymentCreatedEvent(existingPaymentEntity, currentUserAction));
@@ -82,13 +81,14 @@ public class PaymentServiceImpl {
 
     @Transactional
     public ExistingPaymentEntity createExistingPaymentEntity(
+        CreatePaymentRequest paymentRequest,
         ClientEntity clientEntity,
         CurrencyEntity currencyEntity,
         PaymentTypeEntity paymentTypeEntity,
         Double amount,
-        ClientActionEntity currentUserAction,
-        UniqueIdEntity newUniqueEntity
+        ClientActionEntity currentUserAction
     ) {
+        UniqueIdEntity newUniqueEntity = uniqueIdService.getNewUniqueEntity();
         currencyStampService.createCurrencyStamp();
         ExistingPaymentEntity existingPaymentEntity = new ExistingPaymentEntity();
 
@@ -101,6 +101,8 @@ public class PaymentServiceImpl {
         existingPaymentEntity.setUniqueIdByUniqueId(newUniqueEntity);
 
         existingPaymentRepository.save(existingPaymentEntity);
+
+        paymentDataService.createEntity(paymentRequest, existingPaymentEntity);
 
         return existingPaymentEntity;
     }

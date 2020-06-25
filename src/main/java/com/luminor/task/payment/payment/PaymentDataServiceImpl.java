@@ -5,11 +5,17 @@ import com.luminor.task.payment.db.entity.ExistingPaymentDataEntity;
 import com.luminor.task.payment.db.entity.ExistingPaymentEntity;
 import com.luminor.task.payment.db.repository.ExistingPaymentDataRepository;
 import com.luminor.task.payment.web.rest.request.CreatePaymentRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentDataServiceImpl {
     ExistingPaymentDataRepository existingPaymentDataRepository;
+
+    @Autowired
+    public PaymentDataServiceImpl(ExistingPaymentDataRepository existingPaymentDataRepository) {
+        this.existingPaymentDataRepository = existingPaymentDataRepository;
+    }
 
     public void validatePaymentType(
         CreatePaymentRequest createPaymentRequest,

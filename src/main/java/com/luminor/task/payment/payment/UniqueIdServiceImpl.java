@@ -41,7 +41,7 @@ public class UniqueIdServiceImpl {
             uniqueIdEntity.setHashValue(UUID.randomUUID().toString());
             uniqueIdEntity.setGenerationTime(new Timestamp(System.currentTimeMillis()));
 
-            uniqueIdRepository.saveAndFlush(uniqueIdEntity);
+            uniqueIdRepository.save(uniqueIdEntity);
 
 //            logger.info(String.format("created %s unique record, with id %d", uniqueIdEntity.getHashValue(), uniqueIdEntity.getId()));
 
