@@ -13,4 +13,5 @@ public interface ClientIpRepository extends JpaRepository<ClientIpEntity, Intege
 
     @Query("SELECT ci FROM ClientIpEntity ci WHERE ci.countryCode IS NULL")
     Collection<ClientIpEntity> findUnknownCountries();
+
 }

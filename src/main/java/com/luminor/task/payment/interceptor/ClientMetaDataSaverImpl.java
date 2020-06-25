@@ -60,11 +60,10 @@ public class ClientMetaDataSaverImpl {
             userData.setClientActionEntity(createClientAction(request, clientIpEntity));
         }
 
-
         return userData;
     }
 
-    private ClientActionEntity createClientAction(HttpServletRequest request, ClientIpEntity clientIpEntity) {
+    protected ClientActionEntity createClientAction(HttpServletRequest request, ClientIpEntity clientIpEntity) {
         ClientEntity clientEntity = clientRepository.findByLogin(request.getRemoteUser());
         if (clientEntity == null) {
             throw new UsernameNotFoundException(request.getRemoteUser());//could happen if you delete logged in user not real use-case
@@ -79,9 +78,8 @@ public class ClientMetaDataSaverImpl {
         return clientActionEntity;
     }
 
-    private ClientIpEntity createClientIpEntity(String clientIp) {
-        ClientIpEntity clientIpEntity;
-        clientIpEntity = new ClientIpEntity();
+    protected ClientIpEntity createClientIpEntity(String clientIp) {
+        ClientIpEntity clientIpEntity = new ClientIpEntity();
         clientIpEntity.setIpAddress(clientIp);
 
         try {
@@ -93,14 +91,24 @@ public class ClientMetaDataSaverImpl {
         return clientIpEntity;
     }
 
-    private String getClientIp(HttpServletRequest request) {
+    protected String getClientIp(HttpServletRequest request) {
         for (String header: IP_HEADER_CANDIDATES) {
-            String ipList = request.getHeader(header);
-            if (ipList != null && ipList.length() != 0 && !"unknown".equalsIgnoreCase(ipList)) {
-                return ipList.split(",")[0];
+            String foundIp = getHeaderIp(request, header);
+
+            if (foundIp != null) {
+                return foundIp;
             }
         }
 
         return request.getRemoteAddr();
+    }
+
+    protected String getHeaderIp(HttpServletRequest request, String header) {
+        String ipList = request.getHeader(header);
+        if (ipList != null && ipList.length() != 0 && !"unknown".equalsIgnoreCase(ipList)) {
+            return ipList.split(",")[0];
+        }
+
+        return null;
     }
 }

@@ -15,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @ComponentScan
-//@EnableAutoConfiguration
-//@EnableJpaRepositories
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     protected UserDetailsServiceImpl userDetailsService;
@@ -28,6 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //TODO make this hell test ? // https://en.wikipedia.org/wiki/Law_of_Demeter || only will cover if it will be deciding factor
+        //for real code would make coverage for sure as this is primary security configurations, it's very important.
+        //philosophy to cover this with tests need to make many studies why > in future there are chances that I won't work with spring security and this information could consume tons of time.
         http
             .csrf().disable()
             .authorizeRequests()
