@@ -169,7 +169,7 @@ public class ClientMetaDataSaverImplTest {
 
         ClientIpEntity expectingResponse = clientIpEntity;
         if (duplicateKeyEntry) {
-            when(clientIpRepository.save(clientIpEntity)).thenThrow(new DataIntegrityViolationException("test"));
+            when(clientIpRepository.saveAndFlush(clientIpEntity)).thenThrow(new DataIntegrityViolationException("test"));
             expectingResponse = Mockito.mock(ClientIpEntity.class);
             when(clientIpRepository.findByIpAddress(ipMock)).thenReturn(expectingResponse);
         } else {

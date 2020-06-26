@@ -3,6 +3,7 @@ package com.luminor.task.payment.interceptor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -19,6 +20,8 @@ public class RequestInterceptorTest {
     RequestInterceptor requestInterceptor;
     @MockBean
     ClientMetaDataSaverImpl clientMetaDataSaver;
+    @MockBean
+    Logger logger;
 
     public static Object[][] dataProvider() {
         return new Object[][]{
@@ -35,6 +38,7 @@ public class RequestInterceptorTest {
     public void preHandleTest(String uri, UserData indexData) {
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         ReflectionTestUtils.setField(requestInterceptor, "clientMetaDataSaver", clientMetaDataSaver);
+        ReflectionTestUtils.setField(requestInterceptor, "logger", logger);
 
         HttpServletResponse response = mock(HttpServletResponse.class);
         Object handler = mock(Object.class);

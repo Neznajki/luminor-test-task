@@ -11,39 +11,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentDataServiceImpl {
     ExistingPaymentDataRepository existingPaymentDataRepository;
+    private final ValidatorCollection validatorCollection;
 
     @Autowired
-    public PaymentDataServiceImpl(ExistingPaymentDataRepository existingPaymentDataRepository) {
+    public PaymentDataServiceImpl(
+        ExistingPaymentDataRepository existingPaymentDataRepository,
+        ValidatorCollection validatorCollection
+    ) {
         this.existingPaymentDataRepository = existingPaymentDataRepository;
+        this.validatorCollection = validatorCollection;
     }
 
     public void validatePaymentType(
         CreatePaymentRequest createPaymentRequest,
         AllowedTypeCurrencyEntity allowedTypeCurrencyEntity
     ) throws InvalidPaymentException {
-        if (createPaymentRequest.getCreditorIban().equals("") || createPaymentRequest.getCreditorIban() == null) {
-            throw new InvalidPaymentException("creditorIban field is mandatory");
-        }
-
-        if (createPaymentRequest.getDebtorIban().equals("") || createPaymentRequest.getDebtorIban() == null) {
-            throw new InvalidPaymentException("debtorIban field is mandatory");
-        }
-
-        if (
-            allowedTypeCurrencyEntity.getPaymentTypeByTypeId().getTypeName().equals("TYPE1") && (
-                createPaymentRequest.getDetails().equals("") || createPaymentRequest.getDetails() == null
-            )
-        ) {
-            throw new InvalidPaymentException("details field is mandatory for TYPE1");
-        }
-
-        if (
-            allowedTypeCurrencyEntity.getPaymentTypeByTypeId().getTypeName().equals("TYPE3") && (
-                createPaymentRequest.getCreditorBankBicCode().equals("") || createPaymentRequest.getCreditorBankBicCode() == null
-            )
-        ) {
-            throw new InvalidPaymentException("creditorBankBicCode field is mandatory for TYPE3");
-        }
+        validatorCollection.validate(allowedTypeCurrencyEntity.getPaymentTypeByTypeId().getTypeName(), createPaymentRequest);
     }
 
     public ExistingPaymentDataEntity createEntity(CreatePaymentRequest createPaymentRequest, ExistingPaymentEntity paymentEntity) {

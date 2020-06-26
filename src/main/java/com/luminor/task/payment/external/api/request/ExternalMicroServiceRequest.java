@@ -7,6 +7,7 @@ public class ExternalMicroServiceRequest {
     Double cancelFee;
 
     public ExternalMicroServiceRequest(String paymentId) {
+        this.paymentId = paymentId;
         this.isCanceled = false;
         this.isCreated = true;
     }

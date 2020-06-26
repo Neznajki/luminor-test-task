@@ -2,7 +2,9 @@ package com.luminor.task.payment.web.rest;
 
 import com.luminor.task.payment.contract.SecurityService;
 import com.luminor.task.payment.contract.UserService;
-import com.luminor.task.payment.db.repository.ClientRepository;
+import com.luminor.task.payment.db.repository.*;
+import com.luminor.task.payment.event.ExternalMicroserviceListener;
+import com.luminor.task.payment.interceptor.ClientMetaDataSaverImpl;
 import com.luminor.task.payment.security.User;
 import com.luminor.task.payment.security.UserValidator;
 import com.luminor.task.payment.web.ClientController;
@@ -32,8 +34,30 @@ public class ClientControllerTest {
     private SecurityService securityService;
     @MockBean
     private UserValidator userValidator;
+
+    //just to reduce error on application boot
     @MockBean
-    private ClientRepository clientRepository;//just to reduce error on application boot
+    private ClientRepository clientRepository;
+    @MockBean
+    private ClientIpRepository clientIpRepository;
+    @MockBean
+    private ClientActionRepository clientActionRepository;
+    @MockBean
+    private ExternalRequestRepository externalRequestRepository;
+    @MockBean
+    private ExistingPaymentDataRepository existingPaymentDataRepository;
+    @MockBean
+    private ExistingPaymentRepository existingPaymentRepository;
+    @MockBean
+    private AllowedTypeCurrencyRepository allowedTypeCurrencyRepository;
+    @MockBean
+    private UniqueIdRepository uniqueIdRepository;
+    @MockBean
+    private CanceledPaymentRepository canceledPaymentRepository;
+    @MockBean
+    private PaymentFeeRepository paymentFeeRepository;
+    @MockBean
+    private PaymentTypeRepository paymentTypeRepository;
 
     @Test
     public void registrationPageTest() throws Exception {

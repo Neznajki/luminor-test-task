@@ -16,6 +16,7 @@ public class ExistingPaymentEntity {
     private CurrencyEntity currencyByCurrencyId;
     private ExistingPaymentDataEntity existingPaymentDataById;
     private ClientEntity payedClientByPayedClientId;
+    private CanceledPaymentEntity canceledPaymentEntity;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,5 +121,14 @@ public class ExistingPaymentEntity {
 
     public void setPayedClientByPayedClientId(ClientEntity payedClientByPayedClientId) {
         this.payedClientByPayedClientId = payedClientByPayedClientId;
+    }
+
+    @OneToOne(mappedBy = "existingPaymentByExistingPaymentId")
+    public CanceledPaymentEntity getCanceledPaymentEntity() {
+        return canceledPaymentEntity;
+    }
+
+    public void setCanceledPaymentEntity(CanceledPaymentEntity canceledPaymentEntity) {
+        this.canceledPaymentEntity = canceledPaymentEntity;
     }
 }
