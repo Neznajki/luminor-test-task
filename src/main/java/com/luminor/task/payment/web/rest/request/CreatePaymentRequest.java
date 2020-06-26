@@ -1,8 +1,23 @@
 package com.luminor.task.payment.web.rest.request;
 
-import com.luminor.task.payment.db.entity.AllowedTypeCurrencyEntity;
+import com.luminor.task.payment.helper.Security;
+import com.luminor.task.payment.payment.PaymentFormData;
 
 public class CreatePaymentRequest {
+    public static CreatePaymentRequest createFromFormData(PaymentFormData paymentFormData) {
+        CreatePaymentRequest result = new CreatePaymentRequest();
+
+        result.setDebtorIban(paymentFormData.getDebtorIban());
+        result.setCreditorIban(paymentFormData.getCreditorIban());
+        result.setAllowedTypeCurrencyId(paymentFormData.getAllowedTypeCurrencyEntityId());
+        result.setDetails(paymentFormData.getDetails());
+        result.setCreditorBankBicCode(paymentFormData.getCreditorBankBicCode());
+        result.setAmount(paymentFormData.getAmount());
+        result.setClientName(Security.getLoggedInUser().getUsername());
+
+        return result;
+    }
+
     String clientName;
     Double amount;
     Integer allowedTypeCurrencyId;

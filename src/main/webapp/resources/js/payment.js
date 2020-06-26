@@ -1,25 +1,39 @@
 $(() => {
-    $("#submitPayment").on("click", function () {
-        var data = {};
+    $("#allowedTypeCurrencyEntityId").on("change", function () {
+        switchType($(this));
+    }).trigger("change");
 
-        $.each($(this).parent('form').serializeArray(), (_,kv) => {
-            data[kv.name] = kv.value;
-        });
-
-        if (data.amount < 1) {
-            alert("minimum amount is 1");
-            return;
-        }
-
-        $.ajax("/rest-api/create/payment/" + data.allowedTypeCurrencyEntity + "/" + data.amount, {
+    $(".cancel-payment").on("click", function () {
+        $.ajax("/rest-api/cancel/payment", {
             method: "PUT",
             headers: {
-                'Authorization':'Basic UkVTVGFwaTphcGlfcGFzcw==',
+                Authorization: "Basic " + btoa("RESTapi:api_pass")
+            },
+            XMLHttpRequest: {
+                withCredentials: false
             },
             contentType: "application/json",
-            success: function (response) {
-
+            data: JSON.stringify({UUID: $(this).data("cancel-id")}),
+            done: function (data) {
+                if (data.status == 'success') {
+                    alert(data.UUID + "payment cancel success fee : " . data.fee)
+                } else if (typeof data.errorMessage != "undefined") {
+                    alert(data.errorMessage);
+                } else {
+                    alert("something gone wrong");
+                }
             }
         })
     })
 });
+
+function switchType($item) {
+    $(".optionalField").hide().find("input").attr("disabled", "disabled").attr("required", "required");
+    let selectedElement = getSelectedOption($item);
+    $("." + selectedElement).show().find("input").removeAttr("disabled");
+    $(".optional" + selectedElement).removeAttr("required");
+}
+
+function getSelectedOption($item) {
+    return $item.find("option:selected").data("type");
+}
