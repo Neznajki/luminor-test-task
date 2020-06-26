@@ -19,4 +19,9 @@ public class PaymentListener {
     public void handlePaymentCreatedEvent(PaymentCreatedEvent paymentCreatedEvent) throws JsonProcessingException {
         externalMicroServicePaymentNotifier.notifyEvent(paymentCreatedEvent);
     }
+
+    @EventListener
+    public void handlePaymentCancelEvent(PaymentCanceledEvent paymentCanceledEvent) throws JsonProcessingException {
+        externalMicroServicePaymentNotifier.notifyEvent(paymentCanceledEvent);
+    }
 }

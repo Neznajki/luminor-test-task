@@ -10,6 +10,7 @@ public class CanceledPaymentEntity {
     private int id;
     private Timestamp canceledTimestamp;
     private ExistingPaymentEntity existingPaymentByExistingPaymentId;
+    private PaymentFeeEntity paymentFeeById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +47,7 @@ public class CanceledPaymentEntity {
         return Objects.hash(id, canceledTimestamp);
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "existing_payment_id", referencedColumnName = "id", nullable = false)
     public ExistingPaymentEntity getExistingPaymentByExistingPaymentId() {
         return existingPaymentByExistingPaymentId;
@@ -54,5 +55,14 @@ public class CanceledPaymentEntity {
 
     public void setExistingPaymentByExistingPaymentId(ExistingPaymentEntity existingPaymentByExistingPaymentId) {
         this.existingPaymentByExistingPaymentId = existingPaymentByExistingPaymentId;
+    }
+
+    @OneToOne(mappedBy = "canceledPaymentByCancelId")
+    public PaymentFeeEntity getPaymentFeeById() {
+        return paymentFeeById;
+    }
+
+    public void setPaymentFeeById(PaymentFeeEntity paymentFeeById) {
+        this.paymentFeeById = paymentFeeById;
     }
 }

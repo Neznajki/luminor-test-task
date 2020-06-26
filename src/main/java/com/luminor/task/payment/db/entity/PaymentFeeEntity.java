@@ -76,7 +76,7 @@ public class PaymentFeeEntity {
         return Objects.hash(id, feeAmount, feeCoefficient, calculatedAt);
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "cancel_id", referencedColumnName = "id", nullable = false)
     public CanceledPaymentEntity getCanceledPaymentByCancelId() {
         return canceledPaymentByCancelId;

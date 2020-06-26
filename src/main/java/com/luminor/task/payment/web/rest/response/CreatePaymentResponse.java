@@ -4,11 +4,17 @@ public class CreatePaymentResponse {
     String status;
     Integer newPaymentId;
     String errorMessage;
+    String UUID;
 
-    public CreatePaymentResponse(String status, Integer newPaymentId, String errorMessage) {
+    public CreatePaymentResponse(String status, String errorMessage) {
+        this.status = status;
+        this.errorMessage = errorMessage;
+    }
+
+    public CreatePaymentResponse(String status, Integer newPaymentId, String UUID) {
         this.status = status;
         this.newPaymentId = newPaymentId;
-        this.errorMessage = errorMessage;
+        this.UUID = UUID;
     }
 
     public String getStatus() {
@@ -33,5 +39,13 @@ public class CreatePaymentResponse {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 }
