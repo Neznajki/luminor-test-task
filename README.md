@@ -1,6 +1,6 @@
 
 # if you will inspect there will be some additional functioanlity like
-## I made those decisions only as test task part to negate spending time. in real tasks I would start to ask those questions to some one to prevent me from making technical decisions, they shuold be made by product owner not the developer.
+## I made those decisions only as test task part, to negate spending time. in real tasks I would start to ask those questions to some one, to prevent me from making technical decisions, they shuold be made by product owner not the developer.
 * min payment limitation
 * registration of clients
 * login of client
