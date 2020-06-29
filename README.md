@@ -20,7 +20,7 @@
 * implemented GUI add payment 2h
 * implemented simple table preview basic filters. 6h
 * totals 34 hours 30 minutes
-# all requirements is match (more or less)
+# all requirements is match except ordering (more or less)
 
 # api user pass 
 * user: RESTapi
